@@ -99,7 +99,8 @@ int docmd(char *cline)
 	/* process leadin argument */
 	if (gettyp(tkn) != TKCMD) {
 		f = TRUE;
-		strcpy(tkn, getval(tkn));
+		char* val = getval(tkn);
+		memmove(tkn, val, strlen(val) + 1);
 		n = atoi(tkn);
 
 		/* and now get the command to execute */
@@ -237,7 +238,8 @@ int nextarg(char *prompt, char *buffer, int size, int terminator)
 	execstr = token(execstr, buffer, size);
 
 	/* evaluate it */
-	strcpy(buffer, getval(buffer));
+	char* val = getval(buffer);
+	memmove(buffer, val, strlen(val) + 1);
 	return TRUE;
 }
 
