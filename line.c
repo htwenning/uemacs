@@ -245,6 +245,7 @@ int linsert(int n, int c)
 	char utf8[6];
 	int bytes = unicode_to_utf8(c, utf8), i;
 
+	saveundo(UDEL, NULL, n);
 	if (bytes == 1)
 		return linsert_byte(n, (unsigned char) utf8[0]);
 	for (i = 0; i < n; i++) {
@@ -354,6 +355,7 @@ int lnewline(void)
 		}
 		wp = wp->w_wndp;
 	}
+	saveundo(UDEL, NULL, 1);
 	return TRUE;
 }
 
@@ -418,6 +420,7 @@ int ldelete(long n, int kflag)
 			if (ldelnewline() == FALSE
 			    || (kflag != FALSE && kinsert('\n') == FALSE))
 				return FALSE;
+			saveundo(UCH, NULL, 1, '\n');
 			--n;
 			continue;
 		}
@@ -428,6 +431,7 @@ int ldelete(long n, int kflag)
 			while (cp1 != cp2) {
 				if (kinsert(*cp1) == FALSE)
 					return FALSE;
+				saveundo(USTR, NULL, 1, cp1);
 				++cp1;
 			}
 			cp1 = &dotp->l_text[doto];

@@ -8,6 +8,9 @@
  *	modified by Petri Kutvonen
  */
 
+#ifndef ESTRUCT_H_
+#define ESTRUCT_H_
+
 #define MAXCOL	500
 #define MAXROW	500
 
@@ -449,8 +452,11 @@ struct window {
  * 	Buffers may be "Inactive" which means the files associated with them
  * have not been read in yet. These get read in at "use buffer" time.
  */
+
+typedef struct UNDOSTACK UNDOSTACK;
+
 struct buffer {
-        struct buffer *b_bufp;	/* Link to next struct buffer   */
+	struct buffer *b_bufp;	/* Link to next struct buffer   */
 	struct line *b_dotp;	/* Link to "." struct line structure   */
 	struct line *b_markp;	/* The same as the above two,   */
 	struct line *b_linep;	/* Link to the header struct line      */
@@ -462,6 +468,7 @@ struct buffer {
 	char b_flag;		/* Flags                        */
 	char b_fname[NFILEN];	/* File name                    */
 	char b_bname[NBUFN];	/* Buffer name                  */
+	struct UNDOSTACK *b_undo; /* pointer to undo stack */
 #if	CRYPT
 	char b_key[NPAT];	/* current encrypted key        */
 #endif
@@ -678,3 +685,4 @@ struct magic_replacement {
 };
 
 #endif  /* MAGIC */
+#endif

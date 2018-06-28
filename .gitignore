@@ -2,3 +2,10 @@ em
 *.o
 .idea/
 cmake-build-debug/
+CMakeFiles/
+*.cmake
+CMakeCache.txt
+*.bak
+eddep
+em.cbp
+makedep 

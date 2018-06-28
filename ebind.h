@@ -9,6 +9,7 @@
 #define EBIND_H_
 
 #include "line.h"
+#include "undo.h"
 
 /*
  * Command table.
@@ -71,6 +72,8 @@ struct key_tab keytab[NBINDS] = {
 	,
 	{CONTROL | ']', metafn}
 	,
+	{CONTROL | '-' + 50, undo}
+    ,
 	{CTLX | CONTROL | 'B', listbuffers}
 	,
 	{CTLX | CONTROL | 'C', quit}

@@ -423,7 +423,9 @@ int main(int argc, char **argv)
 	}
 
 	/* and execute the command */
+	startsaveundo();
 	execute(c, f, n);
+	endsaveundo();
 	goto loop;
 }
 

@@ -8,6 +8,8 @@
  *
  *	modified by Petri Kutvonen
  */
+#ifndef EM_EFUNC_H
+#define EM_EFUNC_H
 
 /* External function declarations. */
 
@@ -362,3 +364,30 @@ extern void lckerror(char *errstr);
 /* pklock.c */
 extern char *dolock(char *fname);
 extern char *undolock(char *fname);
+
+typedef enum UKIND
+{
+    UUNUSED = 0,			/* Entry is unused		*/
+    UMOVE,			/* Move to (line #, offset)	*/
+    UCH,				/* Insert character		*/
+    USTR,				/* Insert string		*/
+    UDEL,				/* Delete N characters		*/
+} UKIND;
+
+typedef struct POS
+{
+    struct line *p;
+    int o;
+} POS;
+
+/* undo.c */
+extern int undo(int, int);
+extern void startsaveundo (void);		/* Start of undo sequence.	*/
+extern int saveundo (UKIND kind, POS *pos, ...); /* Save undo information.	*/
+extern void endsaveundo (void);		/* End of undo sequence.	*/
+extern void disablesaveundo (void);		/* Disable subsequent saveundos	*/
+extern void enablesaveundo (void);		/* Enable subsequent saveundos	*/
+extern void killundo (struct buffer *bp);		/* Kill undo records for buffer	*/
+extern int lineno (const struct line *lp);		/* Get zero-based line number.	*/
+
+#endif
